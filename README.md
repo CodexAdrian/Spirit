@@ -1,9 +1,16 @@
-# Fabric Example Mod
+# Spirit
 
-## Setup
+## Description
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+Enhanced mob spawner inspired by Soulshards
 
-## License
+## Authors
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+CodexAdrian
+Ashley (MsRandom)
+ThatGravyBoat
+AbusedMaster
+
+## Artist
+
+Kekie6 (guy is a legend)
