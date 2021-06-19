@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.codexadrian.spirit.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7.11",
+  "mixins": [
+    "BaseFireBlockMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "EntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
