@@ -1,6 +1,6 @@
-package com.codexadrian.spirit.mixin;
+package me.codexadrian.spirit.mixin;
 
-import com.codexadrian.spirit.client.shaders.MobSoulShaders;
+import me.codexadrian.spirit.client.shaders.MobSoulShaders;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.GameRenderer;

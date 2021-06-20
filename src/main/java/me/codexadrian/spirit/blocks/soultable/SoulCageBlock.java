@@ -1,6 +1,6 @@
-package com.codexadrian.spirit.blocks.soultable;
+package me.codexadrian.spirit.blocks.soultable;
 
-import com.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Spirit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

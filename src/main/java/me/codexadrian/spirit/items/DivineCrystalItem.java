@@ -1,6 +1,6 @@
-package com.codexadrian.spirit.items;
+package me.codexadrian.spirit.items;
 
-import com.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Spirit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;

@@ -1,7 +1,7 @@
-package com.codexadrian.spirit.blocks.soultable;
+package me.codexadrian.spirit.blocks.soultable;
 
-import com.codexadrian.spirit.Corrupted;
-import com.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Corrupted;
+import me.codexadrian.spirit.Spirit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;

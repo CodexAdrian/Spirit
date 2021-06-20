@@ -1,7 +1,7 @@
-package com.codexadrian.spirit.mixin;
+package me.codexadrian.spirit.mixin;
 
-import com.codexadrian.spirit.Corrupted;
-import com.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Corrupted;
+import me.codexadrian.spirit.Spirit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;

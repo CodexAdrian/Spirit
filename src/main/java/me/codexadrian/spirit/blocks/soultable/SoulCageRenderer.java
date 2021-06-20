@@ -1,4 +1,4 @@
-package com.codexadrian.spirit.blocks.soultable;
+package me.codexadrian.spirit.blocks.soultable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;

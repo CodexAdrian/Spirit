@@ -1,6 +1,6 @@
-package com.codexadrian.spirit.blocks.soultable;
+package me.codexadrian.spirit.blocks.soultable;
 
-import com.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Spirit;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;

@@ -1,4 +1,4 @@
-package com.codexadrian.spirit;
+package me.codexadrian.spirit;
 
 public interface Corrupted {
     boolean isCorrupted();

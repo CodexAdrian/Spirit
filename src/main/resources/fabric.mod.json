@@ -4,16 +4,19 @@
   "id": "spirit",
   "version": "${version}",
   "name": "Spirit",
-  "description": "An enhanced mob spawner created by harvesting the souls of mobs. Made my ModdedMC Studios",
+  "description": "An enhanced mob spawner created by harvesting the souls of mobs",
   "authors": [
     "CodexAdrian",
     "Ashley (MsRandom)",
-    "ThatGravyBoat",
-    "abused_master"
+    "PricelessKoala",
+    "ThatGravyBoat"
+  ],
+  "contributors": [
+    "Kekie6"
   ],
   "contact": {
-    "homepage": "https://modded-mc.com/",
-    "sources": "https://github.com/ModdedMCStudios/SoulShards"
+    "homepage": "http://codexadrian.me/",
+    "sources": "https://github.com/CodexAdrian/Spirit"
   },
   "license": "All Rights Reserved",
   "icon": "icon.png",
@@ -21,10 +24,10 @@
   "accessWidener": "spirit.accesswidener",
   "entrypoints": {
     "main": [
-      "com.codexadrian.spirit.Spirit"
+      "me.codexadrian.spirit.Spirit"
     ],
     "client": [
-      "com.codexadrian.spirit.SpiritClient"
+      "me.codexadrian.spirit.SpiritClient"
     ]
   },
   "mixins": [
@@ -35,8 +38,5 @@
     "fabric": "*",
     "minecraft": "1.17.x",
     "java": ">=16"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

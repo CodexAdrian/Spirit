@@ -1,7 +1,7 @@
-package com.codexadrian.spirit.mixin;
+package me.codexadrian.spirit.mixin;
 
-import com.codexadrian.spirit.Corrupted;
-import com.codexadrian.spirit.client.shaders.MobSoulShaders;
+import me.codexadrian.spirit.Corrupted;
+import me.codexadrian.spirit.client.shaders.MobSoulShaders;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

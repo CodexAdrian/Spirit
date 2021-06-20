@@ -1,6 +1,6 @@
-package com.codexadrian.spirit.client.shaders;
+package me.codexadrian.spirit.client.shaders;
 
-import com.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Spirit;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;

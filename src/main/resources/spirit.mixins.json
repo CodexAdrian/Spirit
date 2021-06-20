@@ -1,8 +1,8 @@
 {
   "required": true,
-  "package": "com.codexadrian.spirit.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "minVersion": "0.7.11",
+  "package": "me.codexadrian.spirit.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "minVersion": "0.8",
   "mixins": [
     "BaseFireBlockMixin",
     "LivingEntityMixin"
