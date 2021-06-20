@@ -1,7 +1,6 @@
 package com.codexadrian.spirit;
 
 import com.codexadrian.spirit.blocks.soultable.SoulCageRenderer;
-import com.codexadrian.spirit.client.shaders.MobSoulShader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
@@ -28,7 +27,7 @@ public class SpiritClient implements ClientModInitializer {
 
             @Override
             public void onResourceManagerReload(ResourceManager resourceManager) {
-                MobSoulShader.INSTANCE.init();
+            
             }
         });
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {

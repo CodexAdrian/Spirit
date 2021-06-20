@@ -105,8 +105,8 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     @Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
-        if (compoundTag.contains("Sword")) {
-            DivineCrystal = ItemStack.of(compoundTag.getCompound("Sword"));
+        if (compoundTag.contains("crystal")) {
+            DivineCrystal = ItemStack.of(compoundTag.getCompound("crystal"));
             setType();
         }
     }
@@ -115,7 +115,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     public CompoundTag save(CompoundTag compoundTag) {
         super.save(compoundTag);
         if (!DivineCrystal.isEmpty()) {
-            compoundTag.put("Sword", DivineCrystal.save(new CompoundTag()));
+            compoundTag.put("crystal", DivineCrystal.save(new CompoundTag()));
         }
         return compoundTag;
     }

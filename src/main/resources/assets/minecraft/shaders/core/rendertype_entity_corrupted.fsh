@@ -1,10 +1,24 @@
-#version 120
+#version 150
 #define NUM_OCTAVES 16
 
-uniform float time;
-uniform sampler2D texture;
+#moj_import <fog.glsl>
 
-const vec2 resolution = vec2(384);
+uniform sampler2D Sampler0;
+
+uniform vec4 ColorModulator;
+uniform float FogStart;
+uniform float FogEnd;
+uniform vec4 FogColor;
+uniform float GameTime;
+
+in float vertexDistance;
+in vec4 vertexColor;
+in vec4 lightMapColor;
+in vec4 overlayColor;
+in vec2 texCoord0;
+in vec4 normal;
+
+out vec4 fragColor;
 
 mat3 rotX(float a) {
     float c = cos(a);
@@ -50,9 +64,9 @@ float fbm(vec2 pos) {
 }
 
 void main(void) {
-    vec2 p = vec2(gl_TexCoord[0]);
+    vec2 p = texCoord0;
     float t = 0.0, d;
-    float time2 = 3.0 * time / 2.0;
+    float time2 = 3.0 * GameTime * 1200 / 2.0;
 
     vec2 q = vec2(0.0);
     q.x = fbm(p + 0.00 * time2);
@@ -68,7 +82,7 @@ void main(void) {
     color = (f *f * f + 0.6 * f * f + 0.5 * f) * color;
 
     vec4 finalComputedColor = vec4(color, 1);
-    vec4 textureColor = texture2D(texture, p);// * vec4(0.90, 0.90, 0.90, 1);
+    vec4 textureColor = texture2D(Sampler0, p);// * vec4(0.90, 0.90, 0.90, 1);
 
-    gl_FragColor = mix(finalComputedColor, textureColor, 0.25);
+    fragColor = mix(finalComputedColor, textureColor, 0.25);
 }
