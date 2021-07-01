@@ -34,7 +34,7 @@ public abstract class BaseFireBlockMixin {
                 }
                 ci.cancel();
             }
-            if(itemE.getItem().getItem().equals(Items.AMETHYST_SHARD) && Spirit.checkMultiblock(blockPos, level)) {
+            if(itemE.getItem().getItem().equals(Items.AMETHYST_CLUSTER) && Spirit.checkMultiblock(blockPos, level)) {
                 itemE.discard();
                 ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(Spirit.SOUL_CRYSTAL, itemE.getItem().getCount()));
                 crystal.setInvulnerable(true);

@@ -2,7 +2,6 @@ package me.codexadrian.spirit;
 
 import me.codexadrian.spirit.blocks.soultable.SoulCageBlock;
 import me.codexadrian.spirit.blocks.soultable.SoulCageBlockEntity;
-import me.codexadrian.spirit.event.EventHandler;
 import me.codexadrian.spirit.items.DivineCrystalItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -65,7 +64,6 @@ public class Spirit implements ModInitializer {
         Registry.register(Registry.ITEM, new ResourceLocation(MODID, "broken_spawner"), BROKEN_SPAWNER_ITEM);
         Registry.register(Registry.ITEM, new ResourceLocation(MODID, "soul_crystal"), SOUL_CRYSTAL);
 
-        EventHandler.initialize();
         try {
             spiritConfig = SpiritConfig.loadConfig(FabricLoader.getInstance().getConfigDir());
         } catch (IOException e) {

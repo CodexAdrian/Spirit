@@ -82,7 +82,7 @@ void main(void) {
     color = (f *f * f + 0.6 * f * f + 0.5 * f) * color;
 
     vec4 finalComputedColor = vec4(color, 1);
-    vec4 textureColor = texture2D(Sampler0, p);// * vec4(0.90, 0.90, 0.90, 1);
+    vec4 textureColor = texture(Sampler0, p);// * vec4(0.90, 0.90, 0.90, 1);
 
     fragColor = mix(finalComputedColor, textureColor, 0.25);
 }
