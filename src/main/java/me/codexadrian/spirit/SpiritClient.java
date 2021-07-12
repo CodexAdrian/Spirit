@@ -1,6 +1,6 @@
 package me.codexadrian.spirit;
 
-import me.codexadrian.spirit.blocks.soultable.SoulCageRenderer;
+import me.codexadrian.spirit.blocks.soulcage.SoulCageRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;

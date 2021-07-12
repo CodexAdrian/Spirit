@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.blocks.soultable;
+package me.codexadrian.spirit.blocks.soulcage;
 
 import me.codexadrian.spirit.Spirit;
 import net.minecraft.core.BlockPos;

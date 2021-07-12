@@ -1,7 +1,7 @@
 package me.codexadrian.spirit;
 
-import me.codexadrian.spirit.blocks.soultable.SoulCageBlock;
-import me.codexadrian.spirit.blocks.soultable.SoulCageBlockEntity;
+import me.codexadrian.spirit.blocks.soulcage.SoulCageBlock;
+import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
 import me.codexadrian.spirit.items.DivineCrystalItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
