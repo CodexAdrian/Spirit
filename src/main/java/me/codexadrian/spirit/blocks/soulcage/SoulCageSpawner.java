@@ -7,6 +7,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 public class SoulCageSpawner {
@@ -113,11 +115,16 @@ public class SoulCageSpawner {
 
     private boolean isNearPlayer() {
         BlockPos blockPos = this.getPos();
-        int tier = getLevel().getBlockState(getPos()).getValue(SoulCageBlock.TIER) - 1;
-        if(Spirit.getSpiritConfig().getNearbyRange(tier) > 0) {
-            return this.getLevel().hasNearbyAlivePlayer((double)blockPos.getX() + 0.5D, (double)blockPos.getY() + 0.5D, (double)blockPos.getZ() + 0.5D, Spirit.getSpiritConfig().getNearbyRange(tier));
-        }
-        return true;
+        BlockState blockState = getLevel().getBlockState(getPos());
+        if(blockState.is(Spirit.SOUL_CAGE)) {
+            int tier = blockState.getValue(SoulCageBlock.TIER) - 1;
+            if (Spirit.getSpiritConfig().getNearbyRange(tier) > 0) {
+                return this.getLevel().hasNearbyAlivePlayer((double) blockPos.getX() + 0.5D, (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D, Spirit.getSpiritConfig().getNearbyRange(tier));
+            } else {
+                return true;
+            }
+        } return false;
+
     }
     private void delay(int tier) {
         if (Spirit.getSpiritConfig().getMaxSpawnDelay(tier ) <= Spirit.getSpiritConfig().getMinSpawnDelay(tier )) {
