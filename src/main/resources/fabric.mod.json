@@ -19,7 +19,7 @@
     "sources": "https://github.com/CodexAdrian/Spirit"
   },
   "license": "All Rights Reserved",
-  "icon": "icon.png",
+  "icon": "assets/spirit/icon.png",
   "environment": "*",
   "accessWidener": "spirit.accesswidener",
   "entrypoints": {
@@ -28,6 +28,9 @@
     ],
     "client": [
       "me.codexadrian.spirit.SpiritClient"
+    ],
+    "modmenu": [
+      "me.codexadrian.spirit.compat.modmenu.SpiritModMenuConfig"
     ]
   },
   "mixins": [

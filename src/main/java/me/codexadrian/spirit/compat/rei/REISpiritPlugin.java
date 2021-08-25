@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.compat;
+package me.codexadrian.spirit.compat.rei;
 
 import me.shedaniel.rei.api.common.plugins.REIPlugin;
 import org.jetbrains.annotations.NotNull;

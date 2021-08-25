@@ -1,5 +1,7 @@
 package me.codexadrian.spirit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import me.codexadrian.spirit.blocks.soulcage.SoulCageBlock;
 import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
 import me.codexadrian.spirit.items.DivineCrystalItem;
@@ -12,8 +14,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +22,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Path;
 
 public class Spirit implements ModInitializer {
     public static final String MODID = "spirit";
@@ -30,14 +33,12 @@ public class Spirit implements ModInitializer {
     public static final SoulCageBlock SOUL_CAGE = new SoulCageBlock(FabricBlockSettings.copyOf(Blocks.SPAWNER).breakByTool(FabricToolTags.PICKAXES).requiresCorrectToolForDrops());
     public static final BlockEntityType<SoulCageBlockEntity> SOUL_CAGE_ENTITY = FabricBlockEntityTypeBuilder.create(SoulCageBlockEntity::new, SOUL_CAGE).build(null);
     public static final Item SOUL_CAGE_ITEM = new BlockItem(SOUL_CAGE, new Item.Properties().tab(Spirit.SPIRIT).rarity(Rarity.EPIC));
-    public static final MobEffect CORRUPTED = new MobEffect(MobEffectCategory.NEUTRAL, 0x33f8ff){};
     public static final Item SOUL_CRYSTAL = new DivineCrystalItem(new Item.Properties().tab(Spirit.SPIRIT).stacksTo(1).rarity(Rarity.RARE));
-    public static final Item SPAWNER_SHARD = new Item(new Item.Properties().tab(Spirit.SPIRIT).rarity(Rarity.EPIC));
     public static final Logger LOGGER = LogManager.getLogger();
     public static final Block BROKEN_SPAWNER = new Block(FabricBlockSettings.copyOf(Blocks.SPAWNER).breakByTool(FabricToolTags.PICKAXES).requiresCorrectToolForDrops());
     public static final Item BROKEN_SPAWNER_ITEM = new BlockItem(BROKEN_SPAWNER, new Item.Properties().tab(Spirit.SPIRIT).rarity(Rarity.EPIC));
     private static SpiritConfig spiritConfig;
-    public static final BlockPos[] GLASS_POSITIONS = new BlockPos[] {
+    public static final BlockPos[] WARPED_WART_POSITIONS = new BlockPos[] {
             new BlockPos(0, -1,1),
             new BlockPos(0,-1,-1),
             new BlockPos(1, -1,0),
@@ -72,14 +73,15 @@ public class Spirit implements ModInitializer {
     }
 
     public static boolean checkMultiblock(BlockPos blockPos, Level level) {
-        for(BlockPos glassPos : GLASS_POSITIONS) {
+        for(BlockPos glassPos : WARPED_WART_POSITIONS) {
             if (!level.getBlockState(blockPos.offset(glassPos)).is(Blocks.WARPED_WART_BLOCK)) {
                 return false;
             }
         }
-        for(BlockPos glassPos : GLASS_POSITIONS) {
-            level.destroyBlock(blockPos.offset(glassPos), true);
+        for(BlockPos glassPos : WARPED_WART_POSITIONS) {
+            level.destroyBlock(blockPos.offset(glassPos), false);
         }
         return true;
     }
+
 }

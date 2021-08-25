@@ -1,6 +1,8 @@
 package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.Corrupted;
+import me.codexadrian.spirit.SpiritClient;
+import me.codexadrian.spirit.SpiritClientConfig;
 import me.codexadrian.spirit.client.shaders.MobSoulShaders;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,7 +21,7 @@ public class EntityRendererMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void preRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-        if (((Corrupted) livingEntity).isCorrupted()) {
+        if (((Corrupted) livingEntity).isCorrupted() && SpiritClient.getClientConfig().getShaderStatus()) {
             currentlyRendered = livingEntity;
         }
     }
@@ -33,7 +35,7 @@ public class EntityRendererMixin {
     
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
     private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderType> cir){
-        if (((Corrupted) livingEntity).isCorrupted()) {
+        if (((Corrupted) livingEntity).isCorrupted() && SpiritClient.getClientConfig().getShaderStatus()) {
             cir.setReturnValue(MobSoulShaders.getSoulRenderType(livingEntity, (LivingEntityRenderer) (Object)this));
         }
     }
