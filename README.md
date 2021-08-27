@@ -13,4 +13,4 @@ Enhanced mob spawner inspired by Soulshards
 * ThatGravyBoat
 * ExpensiveKoala
 * AbusedMaster
-* Art made by Kekie6 (guy is a legend)
+* Art made by Kekie6
