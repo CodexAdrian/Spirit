@@ -8,9 +8,9 @@ Enhanced mob spawner inspired by Soulshards
 
 ## Contributers
 
-* CodexAdrian
-* Ashley (MsRandom)
-* ThatGravyBoat
-* ExpensiveKoala
-* AbusedMaster
-* Kekie6 (Amazing art)
+* CodexAdrian *"made" mod*
+* Ashley (MsRandom) *does cool things*
+* ThatGravyBoat *also does cool things*
+* ExpensiveKoala *shaders :)))*
+* AbusedMaster *shader times 2 :)))*
+* Kekie6 *artist*
