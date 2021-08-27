@@ -15,6 +15,4 @@ Enhanced mob spawner inspired by Soulshards
 * AbusedMaster
 
 
-## Artist
-
-Kekie6 (guy is a legend)
+## Art made by Kekie6 (guy is a legend)
