@@ -6,11 +6,11 @@ Join my discord!
 
 Enhanced mob spawner inspired by Soulshards
 
-## Authors
+## Contributers
 
 * CodexAdrian
 * Ashley (MsRandom)
 * ThatGravyBoat
 * ExpensiveKoala
 * AbusedMaster
-* Art made by Kekie6
+* Kekie6 (Amazing art)
