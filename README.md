@@ -8,11 +8,12 @@ Enhanced mob spawner inspired by Soulshards
 
 ## Authors
 
-CodexAdrian
-Ashley (MsRandom)
-ThatGravyBoat
-AbusedMaster
-ExpensiveKoala
+* CodexAdrian
+* Ashley (MsRandom)
+* ThatGravyBoat
+* ExpensiveKoala
+* AbusedMaster
+
 
 ## Artist
 
