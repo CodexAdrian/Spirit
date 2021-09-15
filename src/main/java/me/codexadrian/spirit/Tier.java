@@ -5,30 +5,33 @@ import com.google.gson.annotations.SerializedName;
 public class Tier {
     
     @SerializedName("requiredSouls")
-    private int requiredSouls = 64;
+    private int requiredSouls;
     
     @SerializedName("minSpawnDelay")
-    private int minSpawnDelay = 300;
+    private int minSpawnDelay;
     
     @SerializedName("maxSpawnDelay")
-    private int maxSpawnDelay = 1000;
+    private int maxSpawnDelay;
     
     @SerializedName("spawnCount")
-    private int spawnCount = 3;
+    private int spawnCount;
     
     @SerializedName("spawnRange")
-    private int spawnRange = 5;
+    private int spawnRange;
     
     @SerializedName("nearbyRange")
-    private int nearbyRange = 16;
+    private int nearbyRange;
     
     @SerializedName("redstoneControlled")
-    private boolean redstoneControlled = false;
+    private boolean redstoneControlled;
     
     @SerializedName("ignoreSpawnConditions")
-    private boolean ignoreSpawnConditions = false;
+    private boolean ignoreSpawnConditions;
     
-    public Tier(int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange, boolean redstoneControlled, boolean ignoreSpawnConditions) {
+    @SerializedName("blacklist")
+    private String[] blacklist;
+    
+    public Tier(int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange, boolean redstoneControlled, boolean ignoreSpawnConditions, String[] blacklist) {
         this.requiredSouls = requiredSouls;
         this.minSpawnDelay = minSpawnDelay;
         this.maxSpawnDelay = maxSpawnDelay;
@@ -37,6 +40,7 @@ public class Tier {
         this.nearbyRange = nearbyRange;
         this.redstoneControlled = redstoneControlled;
         this.ignoreSpawnConditions = ignoreSpawnConditions;
+        this.blacklist = blacklist;
     }
     
     public int getRequiredSouls() {
@@ -69,5 +73,9 @@ public class Tier {
     
     public boolean shouldIgnoreSpawnConditions() {
         return ignoreSpawnConditions;
+    }
+    
+    public String[] getBlacklist() {
+        return blacklist;
     }
 }

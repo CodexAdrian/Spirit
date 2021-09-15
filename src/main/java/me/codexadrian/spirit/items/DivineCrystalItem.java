@@ -36,7 +36,7 @@ public class DivineCrystalItem extends Item {
                 if(!Screen.hasShiftDown()) {
                     tooltip.append(new TextComponent("(" + getPercentage(itemStack) + "%) "));
                 } else {
-                    tooltip.append(new TextComponent("(" + Math.min(storedEntity.getInt("Souls"), Spirit.getSpiritConfig().getMaxSouls()) + "/" + Math.min(Spirit.getNextTier(Spirit.getTier(itemStack)).getRequiredSouls(), Spirit.getSpiritConfig().getMaxSouls()) + ") "));
+                    tooltip.append(new TextComponent("(" + Math.min(storedEntity.getInt("Souls"), Spirit.getMaxSouls(itemStack)) + "/" + Math.min(Spirit.getNextTier(itemStack) == null ? Integer.MAX_VALUE : Spirit.getNextTier(itemStack).getRequiredSouls(), Spirit.getMaxSouls(itemStack)) + ") "));
                 }
                 list.add(tooltip.withStyle(ChatFormatting.GRAY));
             }
@@ -48,10 +48,13 @@ public class DivineCrystalItem extends Item {
 
     public static double getPercentage(ItemStack itemStack) {
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-        Tier tier = Spirit.getNextTier(Spirit.getTier(itemStack));
+        Tier tier = Spirit.getNextTier(itemStack);
+        if(tier == null) {
+            return 100;
+        }
         double percentage = ((double)storedSouls / (tier.getRequiredSouls())) * 100;
         double p = percentage*10;
         int p2 = (int)p;
-        return Spirit.getSpiritConfig().getMaxTier() == tier ? 100 : (double)p2/10;
+        return Spirit.getMaxTier(itemStack) == tier ? 100 : (double)p2/10;
     }
 }

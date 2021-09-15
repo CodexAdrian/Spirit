@@ -59,7 +59,7 @@ public class SpiritClient implements ClientModInitializer {
                 int green = 0xFF;
                 int blue = 0xFE;
                 if (stack.hasTag()) {
-                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) Spirit.getSpiritConfig().getMaxSouls(), 1f);
+                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) Spirit.getMaxSouls(stack), 1f);
                     red -= percentage * 91;
                     green -= percentage * 7;
                     blue += percentage;
@@ -75,7 +75,7 @@ public class SpiritClient implements ClientModInitializer {
         if(tier == null) {
             return 0f;
         }
-        return ((float)tier.getRequiredSouls()) / Spirit.getSpiritConfig().getMaxSouls();
+        return ((float)tier.getRequiredSouls()) / Spirit.getMaxSouls(stack);
     }
     
     public static SpiritClientConfig getClientConfig() {

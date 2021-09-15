@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import net.fabricmc.loader.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.system.CallbackI;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,10 +24,10 @@ public class SpiritConfig {
 
     @SerializedName("tiers")
     private Tier[] tiers = new Tier[] {
-      new Tier(64, 300, 1000, 3, 5, 16, false, false),
-      new Tier(128, 150, 600, 5, 7, 24, false, false),
-      new Tier(256, 75, 400, 7, 9, 32, false, false),
-      new Tier(512, 25, 300, 9, 11, -1, true, false)
+      new Tier(64, 300, 1000, 3, 5, 16, false, false, new String[0]),
+      new Tier(128, 150, 600, 5, 7, 24, false, false, new String[0]),
+      new Tier(256, 75, 400, 7, 9, 32, false, false, new String[0]),
+      new Tier(512, 25, 300, 9, 11, -1, true, false, new String[0])
     };
     
     @SerializedName("collectFromCorrupt")
@@ -46,14 +47,6 @@ public class SpiritConfig {
     public String[] getBlacklist() {
         return blacklist;
     }
-    
-    public int getMaxSouls() {
-        return getMaxTier().getRequiredSouls();
-    }
-    
-    public Tier getMaxTier() {
-        return tiers[tiers.length - 1];
-    }
 
     public static SpiritConfig loadConfig(Path configFolder) throws IOException {
         Path configPath = configFolder.resolve(Spirit.MODID + ".json");
@@ -64,6 +57,9 @@ public class SpiritConfig {
         try {
             SpiritConfig config = GSON.fromJson(new InputStreamReader(Files.newInputStream(configPath)), SpiritConfig.class);
             Arrays.sort(config.getTiers(), Comparator.comparing(Tier::getRequiredSouls));
+            if(config.getBlacklist() == null) {
+                config.blacklist = new String[0];
+            }
             return config;
         } catch (Exception e) {
             LOGGER.error("Error parsing config file for mod " + Spirit.MODID);

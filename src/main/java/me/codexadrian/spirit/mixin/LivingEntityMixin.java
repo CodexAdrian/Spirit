@@ -71,12 +71,12 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                             if (currentItem.getItem() != Spirit.SOUL_CRYSTAL) {
                                 continue;
                             }
-                            if (savedStack.isEmpty() && (!currentItem.hasTag() || (currentItem.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString())) && currentItem.getTag().getCompound("StoredEntity").getInt("Souls") < Spirit.getSpiritConfig().getMaxSouls())) {
+                            if (savedStack.isEmpty() && (!currentItem.hasTag() || (currentItem.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString())) && currentItem.getTag().getCompound("StoredEntity").getInt("Souls") < Spirit.getMaxSouls(currentItem))) {
                                 savedStack = currentItem;
                             } else {
                                 if (currentItem.hasTag()) {
                                     CompoundTag tag = currentItem.getTag().getCompound("StoredEntity");
-                                    if (tag.getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString()) && tag.getInt("Souls") < Spirit.getSpiritConfig().getMaxSouls()) {
+                                    if (tag.getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString()) && tag.getInt("Souls") < Spirit.getMaxSouls(currentItem)) {
                                         int souls = tag.getInt("Souls");
                                         if (souls > savedSouls) {
                                             savedStack = currentItem;

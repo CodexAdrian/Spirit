@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 public class Spirit implements ModInitializer {
     public static final String MODID = "spirit";
@@ -54,12 +55,15 @@ public class Spirit implements ModInitializer {
             return null;
         }
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
+        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         Tier tier = null;
         for(Tier t : spiritConfig.getTiers()) {
-            if(t.getRequiredSouls() <= storedSouls) {
-                tier = t;
-            } else {
-                break;
+            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
+                if (t.getRequiredSouls() <= storedSouls) {
+                    tier = t;
+                } else {
+                    break;
+                }
             }
         }
         return tier;
@@ -67,35 +71,73 @@ public class Spirit implements ModInitializer {
     
     public static int getTierIndex(ItemStack itemStack) {
         if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
-            return 0;
+            return -1;
         }
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
+        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         int tier = 0;
         for(int i = 0; i < spiritConfig.getTiers().length; i++) {
             Tier t = spiritConfig.getTiers()[i];
-            if(t.getRequiredSouls() <= storedSouls) {
-                tier = i;
-            } else {
-                break;
+            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
+                if (t.getRequiredSouls() <= storedSouls) {
+                    tier = i;
+                } else {
+                    break;
+                }
             }
         }
         return tier;
     }
     
-    public static Tier getNextTier(Tier tier) {
-        if(tier != null) {
-            for(int i = 0; i < spiritConfig.getTiers().length; i++) {
-                if(spiritConfig.getTiers()[i] == tier) {
-                    if(i == spiritConfig.getTiers().length - 1) {
-                        return spiritConfig.getTiers()[i];
-                    }
-                    return spiritConfig.getTiers()[i + 1];
+    public static Tier getNextTier(ItemStack itemStack) {
+        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+            return null;
+        }
+        int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
+        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
+        Tier tier = null;
+        for(Tier t : spiritConfig.getTiers()) {
+            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
+                if (t.getRequiredSouls() > storedSouls) {
+                    tier = t;
+                    break;
                 }
             }
         }
-        return spiritConfig.getTiers()[0];
+        return tier;
     }
-
+    
+    public static int getMaxSouls(ItemStack itemStack) {
+        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+            return Integer.MAX_VALUE;
+        }
+        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
+        int requiredSouls = 0;
+        for(int i = 0; i < spiritConfig.getTiers().length; i++) {
+            Tier t = spiritConfig.getTiers()[i];
+            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
+                if(requiredSouls < t.getRequiredSouls()) {
+                    requiredSouls = t.getRequiredSouls();
+                }
+            }
+        }
+        return requiredSouls;
+    }
+    
+    public static Tier getMaxTier(ItemStack itemStack) {
+        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+            return null;
+        }
+        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
+        Tier tier = null;
+        for(Tier t : spiritConfig.getTiers()) {
+            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
+                tier = t;
+            }
+        }
+        return tier;
+    }
+    
     @Override
     public void onInitialize() {
         Registry.register(Registry.BLOCK, new ResourceLocation(MODID, "soul_cage"), SOUL_CAGE);
