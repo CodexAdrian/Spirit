@@ -23,14 +23,17 @@ public class SpiritConfig {
 
     @SerializedName("tiers")
     private Tier[] tiers = new Tier[] {
-      new Tier(64, 300, 1000, 3, 5, 16, false),
-      new Tier(128, 150, 600, 5, 7, 24, false),
-      new Tier(256, 75, 400, 7, 9, 32, false),
-      new Tier(512, 25, 300, 9, 11, -1, true)
+      new Tier(64, 300, 1000, 3, 5, 16, false, false),
+      new Tier(128, 150, 600, 5, 7, 24, false, false),
+      new Tier(256, 75, 400, 7, 9, 32, false, false),
+      new Tier(512, 25, 300, 9, 11, -1, true, false)
     };
     
     @SerializedName("collectFromCorrupt")
     private boolean collectFromCorrupt = false;
+    
+    @SerializedName("entityBlacklist")
+    private String[] blacklist = new String[0];
 
     public Tier[] getTiers() {
         return tiers;
@@ -40,9 +43,14 @@ public class SpiritConfig {
         return collectFromCorrupt;
     }
     
+    public String[] getBlacklist() {
+        return blacklist;
+    }
+    
     public int getMaxSouls() {
         return getMaxTier().getRequiredSouls();
     }
+    
     public Tier getMaxTier() {
         return tiers[tiers.length - 1];
     }

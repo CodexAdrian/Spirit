@@ -8,7 +8,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -79,7 +78,7 @@ public class SoulCageSpawner {
                 double z = blockPos.getZ() + (level.random.nextDouble() - level.random.nextDouble()) * tier.getSpawnRange() + 0.5D;
                 if (level.noCollision(soulCageBlockEntity.type.getAABB(x, y, z))) {
                     ServerLevel serverLevel = (ServerLevel) level;
-                    if (SpawnPlacements.checkSpawnRules(soulCageBlockEntity.type, serverLevel, MobSpawnType.SPAWNER, new BlockPos(x, y, z), level.getRandom())) {
+                    if (tier.shouldIgnoreSpawnConditions() || SpawnPlacements.checkSpawnRules(soulCageBlockEntity.type, serverLevel, MobSpawnType.SPAWNER, new BlockPos(x, y, z), level.getRandom())) {
                         Entity spawned = soulCageBlockEntity.type.create(level);
                         if (spawned == null) {
                             this.delay(tier);
@@ -97,7 +96,7 @@ public class SoulCageSpawner {
                         spawned.moveTo(spawned.getX(), spawned.getY(), spawned.getZ(), level.random.nextFloat() * 360.0F, 0.0F);
                         if (spawned instanceof Mob) {
                             Mob mob = (Mob) spawned;
-                            if (!mob.checkSpawnRules(level, MobSpawnType.SPAWNER) || !mob.checkSpawnObstruction(level)) {
+                            if ((!tier.shouldIgnoreSpawnConditions() && !mob.checkSpawnRules(level, MobSpawnType.SPAWNER)) || !mob.checkSpawnObstruction(level)) {
                                 this.delay(tier);
                                 return;
                             }

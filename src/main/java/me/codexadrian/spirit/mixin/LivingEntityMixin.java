@@ -11,6 +11,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -23,6 +24,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Arrays;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Corrupted {
@@ -56,47 +59,52 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
         if (!victim.level.isClientSide) {
             if (source.getEntity() instanceof Player) {
                 Player player = (Player) source.getEntity();
-                if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
-                    ItemStack savedStack = ItemStack.EMPTY;
-                    int savedSouls = 0;
-                    for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-                        ItemStack currentItem = player.getInventory().getItem(i);
-                        if (currentItem.getItem() != Spirit.SOUL_CRYSTAL) {
-                            continue;
-                        }
-                        if (savedStack.isEmpty() && (!currentItem.hasTag() || (currentItem.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString())) && currentItem.getTag().getCompound("StoredEntity").getInt("Souls") < Spirit.getSpiritConfig().getMaxSouls())) {
-                            savedStack = currentItem;
-                        } else {
-                            if (currentItem.hasTag()) {
-                                CompoundTag tag = currentItem.getTag().getCompound("StoredEntity");
-                                if (tag.getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString()) && tag.getInt("Souls") < Spirit.getSpiritConfig().getMaxSouls()) {
-                                    int souls = tag.getInt("Souls");
-                                    if (souls > savedSouls) {
-                                        savedStack = currentItem;
-                                        savedSouls = souls;
+                if(!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> {
+                    ResourceLocation tag = new ResourceLocation(s);
+                    return Registry.ENTITY_TYPE.getKey(victim.getType()).equals(tag);
+                })) {
+                    if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
+                        ItemStack savedStack = ItemStack.EMPTY;
+                        int savedSouls = 0;
+                        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                            ItemStack currentItem = player.getInventory().getItem(i);
+                            if (currentItem.getItem() != Spirit.SOUL_CRYSTAL) {
+                                continue;
+                            }
+                            if (savedStack.isEmpty() && (!currentItem.hasTag() || (currentItem.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString())) && currentItem.getTag().getCompound("StoredEntity").getInt("Souls") < Spirit.getSpiritConfig().getMaxSouls())) {
+                                savedStack = currentItem;
+                            } else {
+                                if (currentItem.hasTag()) {
+                                    CompoundTag tag = currentItem.getTag().getCompound("StoredEntity");
+                                    if (tag.getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString()) && tag.getInt("Souls") < Spirit.getSpiritConfig().getMaxSouls()) {
+                                        int souls = tag.getInt("Souls");
+                                        if (souls > savedSouls) {
+                                            savedStack = currentItem;
+                                            savedSouls = souls;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (!savedStack.isEmpty()) {
-
-                        CompoundTag storedEntity;
-                        if (!savedStack.hasTag() || !savedStack.getTag().contains("StoredEntity")) {
-                            CompoundTag tag = new CompoundTag();
-                            tag.putString("Type", Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
-                            savedStack.getOrCreateTag().put("StoredEntity", tag);
-                            storedEntity = tag;
-                        } else {
-                            storedEntity = savedStack.getTag().getCompound("StoredEntity");
-                        }
-                        storedEntity.putInt("Souls", storedEntity.getInt("Souls") + 1);
-                        ServerLevel serverLevel = (ServerLevel) player.level;
-                        serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
-                        Tier tier = Spirit.getTier(savedStack);
-                        if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
-                            player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
-                            serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
+                        if (!savedStack.isEmpty()) {
+            
+                            CompoundTag storedEntity;
+                            if (!savedStack.hasTag() || !savedStack.getTag().contains("StoredEntity")) {
+                                CompoundTag tag = new CompoundTag();
+                                tag.putString("Type", Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
+                                savedStack.getOrCreateTag().put("StoredEntity", tag);
+                                storedEntity = tag;
+                            } else {
+                                storedEntity = savedStack.getTag().getCompound("StoredEntity");
+                            }
+                            storedEntity.putInt("Souls", storedEntity.getInt("Souls") + 1);
+                            ServerLevel serverLevel = (ServerLevel) player.level;
+                            serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
+                            Tier tier = Spirit.getTier(savedStack);
+                            if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
+                                player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
+                                serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
+                            }
                         }
                     }
                 }

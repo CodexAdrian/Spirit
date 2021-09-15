@@ -25,8 +25,10 @@ public class Tier {
     @SerializedName("redstoneControlled")
     private boolean redstoneControlled = false;
     
+    @SerializedName("ignoreSpawnConditions")
+    private boolean ignoreSpawnConditions = false;
     
-    public Tier(int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange, boolean redstoneControlled) {
+    public Tier(int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange, boolean redstoneControlled, boolean ignoreSpawnConditions) {
         this.requiredSouls = requiredSouls;
         this.minSpawnDelay = minSpawnDelay;
         this.maxSpawnDelay = maxSpawnDelay;
@@ -34,6 +36,7 @@ public class Tier {
         this.spawnRange = spawnRange;
         this.nearbyRange = nearbyRange;
         this.redstoneControlled = redstoneControlled;
+        this.ignoreSpawnConditions = ignoreSpawnConditions;
     }
     
     public int getRequiredSouls() {
@@ -62,5 +65,9 @@ public class Tier {
     
     public boolean isRedstoneControlled() {
         return redstoneControlled;
+    }
+    
+    public boolean shouldIgnoreSpawnConditions() {
+        return ignoreSpawnConditions;
     }
 }
