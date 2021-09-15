@@ -2,6 +2,7 @@ package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Tier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -55,7 +56,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
         if (!victim.level.isClientSide) {
             if (source.getEntity() instanceof Player) {
                 Player player = (Player) source.getEntity();
-                if (victim.canChangeDimensions() && !corrupt.isCorrupted()) {
+                if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                     ItemStack savedStack = ItemStack.EMPTY;
                     int savedSouls = 0;
                     for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -92,7 +93,8 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                         storedEntity.putInt("Souls", storedEntity.getInt("Souls") + 1);
                         ServerLevel serverLevel = (ServerLevel) player.level;
                         serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
-                        if (storedEntity.getInt("Souls") % Spirit.getSpiritConfig().getRequiredSouls() == 0) {
+                        Tier tier = Spirit.getTier(savedStack);
+                        if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
                             player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
                             serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
                         }

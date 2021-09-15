@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.ItemStack;
 import org.lwjgl.system.CallbackI;
 
 import java.io.FileWriter;
@@ -66,8 +67,17 @@ public class SpiritClient implements ClientModInitializer {
                 return red << 16 | green << 8 | blue;
             } else return -1;
         }, Spirit.SOUL_CRYSTAL);
-        FabricModelPredicateProviderRegistry.register(Spirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? Spirit.getTier(stack) / (float) 4 : 0);
+        FabricModelPredicateProviderRegistry.register(Spirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
     }
+    
+    private static float getActivation(ItemStack stack) {
+        Tier tier = Spirit.getTier(stack);
+        if(tier == null) {
+            return 0f;
+        }
+        return ((float)tier.getRequiredSouls()) / Spirit.getSpiritConfig().getMaxSouls();
+    }
+    
     public static SpiritClientConfig getClientConfig() {
         return clientConfig;
     }

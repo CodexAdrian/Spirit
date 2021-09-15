@@ -28,11 +28,9 @@ import java.util.List;
 
 public class SoulCageBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    public static final IntegerProperty TIER = IntegerProperty.create("tier", 1, 4);
 
     public SoulCageBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(TIER, 1));
     }
 
     @Override
@@ -57,8 +55,7 @@ public class SoulCageBlock extends BaseEntityBlock {
             if (soulSpawner != null) {
                 if (soulSpawner.isEmpty()) {
                     if (itemStack.getItem() == Spirit.SOUL_CRYSTAL && itemStack.hasTag()) {
-                        if (itemStack.getTag().getCompound("StoredEntity").getInt("Souls") >= Spirit.getSpiritConfig().getRequiredSouls()) {
-                            level.setBlock(blockPos, blockState.setValue(TIER, Spirit.getTier(itemStack)), 4);
+                        if(Spirit.getTier(itemStack) != null) {
                             soulSpawner.setItem(0, itemStack.copy());
                             soulSpawner.setType();
                             if (level.isClientSide) soulSpawner.entity = null;
@@ -68,7 +65,7 @@ public class SoulCageBlock extends BaseEntityBlock {
                             return InteractionResult.SUCCESS;
                         }
                     }
-                } else {
+                } else if (player.isShiftKeyDown()) {
                     final ItemStack DivineCrystal = soulSpawner.removeItemNoUpdate(0);
                     soulSpawner.type = null;
                     if (level.isClientSide) soulSpawner.entity = null;
@@ -77,17 +74,11 @@ public class SoulCageBlock extends BaseEntityBlock {
                     } else if (!player.addItem(DivineCrystal)) {
                         player.drop(DivineCrystal, false);
                     }
-                    level.setBlock(blockPos, blockState.setValue(TIER, 1), 4);
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
         return InteractionResult.PASS;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(TIER);
     }
 
     @Override

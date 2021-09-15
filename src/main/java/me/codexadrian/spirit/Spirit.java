@@ -49,11 +49,51 @@ public class Spirit implements ModInitializer {
         return spiritConfig;
     }
 
-    public static int getTier(ItemStack itemStack) {
+    public static Tier getTier(ItemStack itemStack) {
+        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+            return null;
+        }
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-        if(storedSouls < getSpiritConfig().getRequiredSouls() * 4)
-            return storedSouls/ getSpiritConfig().getRequiredSouls();
-        return 4;
+        Tier tier = null;
+        for(Tier t : spiritConfig.getTiers()) {
+            if(t.getRequiredSouls() <= storedSouls) {
+                tier = t;
+            } else {
+                break;
+            }
+        }
+        return tier;
+    }
+    
+    public static int getTierIndex(ItemStack itemStack) {
+        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+            return 0;
+        }
+        int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
+        int tier = 0;
+        for(int i = 0; i < spiritConfig.getTiers().length; i++) {
+            Tier t = spiritConfig.getTiers()[i];
+            if(t.getRequiredSouls() <= storedSouls) {
+                tier = i;
+            } else {
+                break;
+            }
+        }
+        return tier;
+    }
+    
+    public static Tier getNextTier(Tier tier) {
+        if(tier != null) {
+            for(int i = 0; i < spiritConfig.getTiers().length; i++) {
+                if(spiritConfig.getTiers()[i] == tier) {
+                    if(i == spiritConfig.getTiers().length - 1) {
+                        return spiritConfig.getTiers()[i];
+                    }
+                    return spiritConfig.getTiers()[i + 1];
+                }
+            }
+        }
+        return spiritConfig.getTiers()[0];
     }
 
     @Override
