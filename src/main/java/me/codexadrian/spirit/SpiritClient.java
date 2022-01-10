@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.ItemStack;
 import org.lwjgl.system.CallbackI;
 
 import java.io.FileWriter;
@@ -58,7 +59,7 @@ public class SpiritClient implements ClientModInitializer {
                 int green = 0xFF;
                 int blue = 0xFE;
                 if (stack.hasTag()) {
-                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) Spirit.getSpiritConfig().getMaxSouls(), 1f);
+                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) Spirit.getMaxSouls(stack), 1f);
                     red -= percentage * 91;
                     green -= percentage * 7;
                     blue += percentage;
@@ -66,8 +67,17 @@ public class SpiritClient implements ClientModInitializer {
                 return red << 16 | green << 8 | blue;
             } else return -1;
         }, Spirit.SOUL_CRYSTAL);
-        FabricModelPredicateProviderRegistry.register(Spirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? Spirit.getTier(stack) / (float) 4 : 0);
+        FabricModelPredicateProviderRegistry.register(Spirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
     }
+    
+    private static float getActivation(ItemStack stack) {
+        Tier tier = Spirit.getTier(stack);
+        if(tier == null) {
+            return 0f;
+        }
+        return ((float)tier.getRequiredSouls()) / Spirit.getMaxSouls(stack);
+    }
+    
     public static SpiritClientConfig getClientConfig() {
         return clientConfig;
     }

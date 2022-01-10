@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.Tier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
@@ -29,16 +30,16 @@ public class DivineCrystalItem extends Item {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         if (itemStack.hasTag()) {
             final CompoundTag storedEntity = itemStack.getTag().getCompound("StoredEntity");
-                if (storedEntity.contains("Type")) {
-                    MutableComponent tooltip = new TranslatableComponent(Util.makeDescriptionId("entity", new ResourceLocation(storedEntity.getString("Type"))));
-                    tooltip.append(new TextComponent(" " + (Spirit.getTier(itemStack)) + " - "));
-                    if(!Screen.hasShiftDown()) {
-                        tooltip.append(new TextComponent("(" + getPercentage(itemStack) + "%) "));
-                    } else {
-                        tooltip.append(new TextComponent("(" + storedEntity.getInt("Souls") + "/" + Math.min(Spirit.getSpiritConfig().getRequiredSouls()*(Spirit.getTier(itemStack) + 1), Spirit.getSpiritConfig().getMaxSouls()) + ") "));
-                    }
-                    list.add(tooltip.withStyle(ChatFormatting.GRAY));
+            if (storedEntity.contains("Type")) {
+                MutableComponent tooltip = new TranslatableComponent(Util.makeDescriptionId("entity", new ResourceLocation(storedEntity.getString("Type"))));
+                tooltip.append(new TextComponent(" " + (Spirit.getTierIndex(itemStack) + 1) + " - "));
+                if(!Screen.hasShiftDown()) {
+                    tooltip.append(new TextComponent("(" + getPercentage(itemStack) + "%) "));
+                } else {
+                    tooltip.append(new TextComponent("(" + Math.min(storedEntity.getInt("Souls"), Spirit.getMaxSouls(itemStack)) + "/" + Math.min(Spirit.getNextTier(itemStack) == null ? Integer.MAX_VALUE : Spirit.getNextTier(itemStack).getRequiredSouls(), Spirit.getMaxSouls(itemStack)) + ") "));
                 }
+                list.add(tooltip.withStyle(ChatFormatting.GRAY));
+            }
         } else {
             MutableComponent unboundTooltip = new TextComponent("Unbound");
             list.add(unboundTooltip.withStyle(ChatFormatting.BOLD, ChatFormatting.RED));
@@ -47,10 +48,13 @@ public class DivineCrystalItem extends Item {
 
     public static double getPercentage(ItemStack itemStack) {
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-        int tier = Spirit.getTier(itemStack);
-        double percentage = ((double)storedSouls/((tier +1)* Spirit.getSpiritConfig().getRequiredSouls())) * 100;
+        Tier tier = Spirit.getNextTier(itemStack);
+        if(tier == null) {
+            return 100;
+        }
+        double percentage = ((double)storedSouls / (tier.getRequiredSouls())) * 100;
         double p = percentage*10;
         int p2 = (int)p;
-        return tier == 4 ? 100 : (double)p2/10;
+        return Spirit.getMaxTier(itemStack) == tier ? 100 : (double)p2/10;
     }
 }
