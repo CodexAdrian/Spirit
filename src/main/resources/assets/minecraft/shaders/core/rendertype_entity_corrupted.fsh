@@ -64,6 +64,7 @@ float fbm(vec2 pos) {
 }
 
 void main(void) {
+    //void main void
     vec2 p = texCoord0;
     float t = 0.0, d;
     float time2 = 3.0 * GameTime * 1200 / 2.0;

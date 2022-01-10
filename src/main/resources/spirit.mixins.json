@@ -12,6 +12,7 @@
     "EntityRendererMixin"
   ],
   "injectors": {
+    "maxShiftBy": 5,
     "defaultRequire": 1
   }
 }

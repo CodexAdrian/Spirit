@@ -29,14 +29,13 @@ public class GameRendererMixin {
     private void reloadShaders(ResourceManager resourceManager, CallbackInfo ci) {
         List<Pair<ShaderInstance, Consumer<ShaderInstance>>> list = new ArrayList<>();
         try {
-            list.add(Pair.of(new ShaderInstance(resourceManager, "rendertype_entity_corrupted", DefaultVertexFormat.BLOCK), (shaderInstance) -> {
-                MobSoulShaders.rendertypeTranslucentShader = shaderInstance;
-            }));
+            list.add(Pair.of(new ShaderInstance(resourceManager, "rendertype_entity_corrupted", DefaultVertexFormat.BLOCK), (shaderInstance) -> MobSoulShaders.rendertypeTranslucentShader = shaderInstance));
         } catch (Exception e) {
             list.forEach(pair -> pair.getFirst().close());
             throw new RuntimeException("could not reload shaders", e);
         }
-        
+
+
         list.forEach(pair -> {
             ShaderInstance shaderInstance = pair.getFirst();
             this.shaders.put(shaderInstance.getName(), shaderInstance);
