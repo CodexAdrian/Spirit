@@ -9,7 +9,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -31,12 +30,12 @@ import java.util.Arrays;
 public class Spirit implements ModInitializer {
     public static final String MODID = "spirit";
     public static final CreativeModeTab SPIRIT = FabricItemGroupBuilder.create(new ResourceLocation(MODID, "spirit")).icon(() -> new ItemStack(Spirit.SOUL_CAGE)).build();
-    public static final SoulCageBlock SOUL_CAGE = new SoulCageBlock(FabricBlockSettings.copyOf(Blocks.SPAWNER).breakByTool(FabricToolTags.PICKAXES).requiresCorrectToolForDrops());
+    public static final SoulCageBlock SOUL_CAGE = new SoulCageBlock(FabricBlockSettings.copyOf(Blocks.SPAWNER).requiresCorrectToolForDrops());
     public static final BlockEntityType<SoulCageBlockEntity> SOUL_CAGE_ENTITY = FabricBlockEntityTypeBuilder.create(SoulCageBlockEntity::new, SOUL_CAGE).build(null);
     public static final Item SOUL_CAGE_ITEM = new BlockItem(SOUL_CAGE, new Item.Properties().tab(Spirit.SPIRIT).rarity(Rarity.EPIC));
     public static final Item SOUL_CRYSTAL = new DivineCrystalItem(new Item.Properties().tab(Spirit.SPIRIT).stacksTo(1).rarity(Rarity.RARE));
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final Block BROKEN_SPAWNER = new Block(FabricBlockSettings.copyOf(Blocks.SPAWNER).breakByTool(FabricToolTags.PICKAXES).requiresCorrectToolForDrops());
+    public static final Block BROKEN_SPAWNER = new Block(FabricBlockSettings.copyOf(Blocks.SPAWNER).requiresCorrectToolForDrops());
     public static final Item BROKEN_SPAWNER_ITEM = new BlockItem(BROKEN_SPAWNER, new Item.Properties().tab(Spirit.SPIRIT).rarity(Rarity.EPIC));
     private static SpiritConfig spiritConfig;
     public static final BlockPos[] WARPED_WART_POSITIONS = new BlockPos[] {

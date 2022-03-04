@@ -43,10 +43,6 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
-    }
-
     public boolean triggerEvent(int i, int j) {
         return this.enabledSpawner.onEventTriggered(i) || super.triggerEvent(i, j);
     }
@@ -90,7 +86,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     @Override
     public boolean stillValid(Player player) {
-        return worldPosition != null && worldPosition.distSqr(player.getX(), player.getY(), player.getZ(), true) <= 16;
+        return worldPosition != null && worldPosition.distSqr(player.blockPosition()) <= 16;
     }
 
     @Override
@@ -112,14 +108,13 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
         }
     }
 
-    @Override
-    public CompoundTag save(CompoundTag compoundTag) {
-        super.save(compoundTag);
+    protected void saveAdditional(CompoundTag compoundTag) {
+        super.saveAdditional(compoundTag);
         if (!DivineCrystal.isEmpty()) {
             compoundTag.put("crystal", DivineCrystal.save(new CompoundTag()));
         }
-        return compoundTag;
     }
+
 
     public void setType() {
         if (DivineCrystal.hasTag()) {
@@ -128,6 +123,8 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
             type = null;
         }
     }
+
+
 
     public SoulCageSpawner getSpawner() {
         return this.enabledSpawner;
